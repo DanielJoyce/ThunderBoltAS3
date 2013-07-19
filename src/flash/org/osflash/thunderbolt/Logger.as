@@ -470,54 +470,44 @@ package org.osflash.thunderbolt
  			var debugError: Error;
  			var message: String = '';
 			
-            try {
-				var errorObject: Object;
-                errorObject.halli = "galli";
-            } 
-            catch( error: Error )
-            {
-            	debugError = new Error();
-            }
-            finally
-            {
-            	var stackTrace:String = debugError.getStackTrace();
-            	// track all stacks only if we have a stackTrace
-				if ( stackTrace != null )
-	    		{
- 		    		var stacks:Array = stackTrace.split("\n");
+			var stackTrace:String = (new Error()).getStackTrace();
+			// track all stacks only if we have a stackTrace
+			if ( stackTrace != null )
+			{
+				var stacks:Array = stackTrace.split("\n");
 
-		    		if ( stacks != null )
-		    		{
-		    			var stackData: StackData;
-		    			
-		    			// stacks data for using Logger 
-		    			
+				if ( stacks != null )
+				{
+					var stackData: StackData;
+					
+					// stacks data for using Logger 
+					
 /* 		    			trace ("stacks.length " + stacks.length); */
 
-		    			if ( stacks.length >= 5 )
-		    				 stackData = Logger.stackDataFromStackTrace( stacks[ 4 ] );
-						
-						// special stack data for using ThunderBoldTarget which is a subclass of mx.logging.AbstractTarget
-						if ( stackData.className == "AbstractTarget" &&  stacks.length >= 9 )
-							stackData = Logger.stackDataFromStackTrace( stacks[ 8 ] );
+					if ( stacks.length >= 5 )
+							stackData = Logger.stackDataFromStackTrace( stacks[ 4 ] );
+					
+					// special stack data for using ThunderBoldTarget which is a subclass of mx.logging.AbstractTarget
+					if ( stackData.className == "AbstractTarget" &&  stacks.length >= 9 )
+						stackData = Logger.stackDataFromStackTrace( stacks[ 8 ] );
 
-						// show details of stackData only if it available
-						if ( stackData != null )
-						{
+					// show details of stackData only if it available
+					if ( stackData != null )
+					{
 /* 							trace ("stackData " + stackData.toString() );  */
-							 			
-							message += ( stackData.packageName != "") 
-										? stackData.packageName + "."
-										: stackData.packageName;
-																			
-							message += stackData.className;
-							
-							if ( stackData.lineNumber > 0  )
-								message += " [" + stackData.lineNumber + "]" + Logger.FIELD_SEPERATOR;
-						}							    		
-		    		}  		    			
-	    		}               
-            }
+									
+						message += ( stackData.packageName != "") 
+									? stackData.packageName + "."
+									: stackData.packageName;
+																		
+						message += stackData.className;
+						
+						if ( stackData.lineNumber > 0  )
+							message += " [" + stackData.lineNumber + "]" + Logger.FIELD_SEPERATOR;
+					}							    		
+				}  		    			
+			}               
+
             
                        
             return message;	
