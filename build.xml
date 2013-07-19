@@ -31,7 +31,7 @@
         
 <target name="build" depends="clean, setup, inject.version">
     <compc 
-        output="${deploy.dir}/${comp.name}.swc"
+        output="${deploy.dir}/${comp.name}-${repository.version}${repository.dirty}.swc"
         actionscript-file-encoding="UTF-8"
         debug="true"
         incremental="false"
@@ -82,7 +82,6 @@
         <length string="${git.status}" trim="yes" when="greater" length="0"/>
     </and>
     </condition>
-    <echo message="Repo is dirty: ${repository.dirty}"/>
 </target>
     
     <!-- Replace VersionInfo.as with a template that contains updated git.revision number -->
