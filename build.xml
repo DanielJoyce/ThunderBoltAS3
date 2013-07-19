@@ -51,29 +51,46 @@
         description="Stores git revision in ${repository.version}">
     <exec executable="git" outputproperty="git.revision" 
             failifexecutionfails="false" errorproperty="">
-    <arg value="describe"/>
-    <arg value="--tags"/>
-    <arg value="--always"/>
-    <arg value="HEAD"/>
+        <arg value="describe"/>
+        <arg value="--tags"/>
+        <arg value="--always"/>
+        <arg value="HEAD"/>
     </exec>
     <condition property="repository.version" 
             value="${git.revision}" else="UNKNOWN">
     <and>
         <isset property="git.revision"/>
-        <length string="${git.revision}" trim="yes" length="0" when="greater"/>
+        <length string="${git.revision}" trim="yes" when="greater" length="0"/>
     </and>
     </condition>
     <echo message="Determined git version is ${git.revision}"/>
 </target>
+
+<target name="git.dirty" if="git.present" 
+    description="Test if artifact was built from dirty repo with uncommitted changes or untracked files">
+    <exec executable="git" outputproperty="git.status" 
+            failifexecutionfails="false" errorproperty="">
+        <arg value="status"/>
+        <arg value="--porcelain"/>
+    </exec>
+    <condition property="repository.dirty" 
+            value="-dirty" else="">
+    <and>
+        <isset property="git.status"/>
+        <length string="${git.status}" trim="yes" when="greater" length="0"/>
+    </and>
+    </condition>
+    <echo message="Repo is dirty: ${repository.dirty}"/>
+</target>
     
     <!-- Replace VersionInfo.as with a template that contains updated git.revision number -->
-<target name="inject.version" depends="git.revision"
+<target name="inject.version" depends="git.revision, git.dirty"
         description="Injects git revision into app Version.as">
     <copy file="src/org/osflash/thunderbolt/Version.as.tmplt" 
             tofile="src/org/osflash/thunderbolt/Version.as" overwrite="true">
         <filterchain>
             <replacetokens >
-                <token key="THUNDERBOLT_LOGGER_VERSION" value="${git.revision}" />
+                <token key="THUNDERBOLT_LOGGER_VERSION" value="${repository.version}${repository.dirty}" />
             </replacetokens>
         </filterchain>
     </copy>    
