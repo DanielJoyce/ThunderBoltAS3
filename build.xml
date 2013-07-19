@@ -31,15 +31,17 @@
         
 <target name="build" depends="clean, setup, inject.version">
     <compc 
-    output="${deploy.dir}/${comp.name}.swc"
-    actionscript-file-encoding="UTF-8"
-    debug="true"
-    incremental="false"
-    swf-version="13"
-    warnings="false">
-    <source-path path-element="${comp.src}"/>
-    <include-sources dir="${comp.src}" includes="*" />
-</compc>
+        output="${deploy.dir}/${comp.name}.swc"
+        actionscript-file-encoding="UTF-8"
+        debug="true"
+        incremental="false"
+        swf-version="13"
+        warnings="false">
+        <source-path path-element="${comp.src}/flash"/>
+        <source-path path-element="${comp.src}/flex"/>
+        <include-sources dir="${comp.src}/flash" includes="*" />
+        <include-sources dir="${comp.src}/flex" includes="*" />
+    </compc>
 </target>
     
     <!-- Git dir check and revision number update tasks -->
@@ -86,8 +88,8 @@
     <!-- Replace VersionInfo.as with a template that contains updated git.revision number -->
 <target name="inject.version" depends="git.revision, git.dirty"
         description="Injects git revision into app Version.as">
-    <copy file="src/org/osflash/thunderbolt/Version.as.tmplt" 
-            tofile="src/org/osflash/thunderbolt/Version.as" overwrite="true">
+    <copy file="src/flash/org/osflash/thunderbolt/Version.as.tmplt" 
+            tofile="src/flash/org/osflash/thunderbolt/Version.as" overwrite="true">
         <filterchain>
             <replacetokens >
                 <token key="THUNDERBOLT_LOGGER_VERSION" value="${repository.version}${repository.dirty}" />
