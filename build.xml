@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="ThunderboltLoggerAS3" basedir="." default="build">
+
+<!-- Set env. var for Flex app compilation -->
+<property environment="env."/>
+    <fail unless="env.FLEX_HOME"
+    message="Add FLEX_HOME environment variable or define it the Ant build script"/>
+
+<!-- Copy Flex SDK location from environment variable -->
+<property name="FLEX_HOME" value="${env.FLEX_HOME}"/>
+
+<!-- App name, src root, and deploy dirs -->
+<property name="comp.name" value="ThunderboltLoggerAS3"/>
+<property name="comp.src" value="${basedir}/src"/>
+<property name="deploy.dir" value="${basedir}/dist/comp"/>
+
+    <!-- Include Flex Ant task defs -->
+<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
+
+    <!-- Clean Distro dir -->
+<target name="clean" description="Deletes deploy dir assets for new build">
+    <delete quiet="true" dir="${deploy.dir}/generated"/>
+    <delete quiet="true">
+    <fileset dir="${deploy.dir}" includes="${comp.name}.swc"/>
+    </delete>
+</target>
+
+<target name="setup">
+    <mkdir dir="${deploy.dir}"/>
+</target>
+        
+<target name="build" depends="clean, setup, inject.version">
+    <compc 
+    output="${deploy.dir}/${comp.name}.swc"
+    actionscript-file-encoding="UTF-8"
+    debug="true"
+    incremental="false"
+    swf-version="13"
+    warnings="false">
+    <source-path path-element="${comp.src}"/>
+    <include-sources dir="${comp.src}" includes="*" />
+</compc>
+</target>
+    
+    <!-- Git dir check and revision number update tasks -->
+    
+<available file=".git" type="dir" property="git.present"/>
+    
+    <!-- Git revision property update target -->
+<target name="git.revision" if="git.present"
+        description="Stores git revision in ${repository.version}">
+    <exec executable="git" outputproperty="git.revision" 
+            failifexecutionfails="false" errorproperty="">
+    <arg value="describe"/>
+    <arg value="--tags"/>
+    <arg value="--always"/>
+    <arg value="HEAD"/>
+    </exec>
+    <condition property="repository.version" 
+            value="${git.revision}" else="UNKNOWN">
+    <and>
+        <isset property="git.revision"/>
+        <length string="${git.revision}" trim="yes" length="0" when="greater"/>
+    </and>
+    </condition>
+    <echo message="Determined git version is ${git.revision}"/>
+</target>
+    
+    <!-- Replace VersionInfo.as with a template that contains updated git.revision number -->
+<target name="inject.version" depends="git.revision"
+        description="Injects git revision into app Version.as">
+    <copy file="src/org/osflash/thunderbolt/Version.as.tmplt" 
+            tofile="src/org/osflash/thunderbolt/Version.as" overwrite="true">
+        <filterchain>
+            <replacetokens >
+                <token key="THUNDERBOLT_LOGGER_VERSION" value="${git.revision}" />
+            </replacetokens>
+        </filterchain>
+    </copy>    
+</target>
+
+</project>

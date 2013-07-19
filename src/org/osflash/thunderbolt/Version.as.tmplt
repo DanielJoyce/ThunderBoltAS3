@@ -1,0 +1,8 @@
+package org.osflash.thunderbolt
+{
+    
+    public class Version
+    {
+        public static const VERSION:String = "@THUNDERBOLT_LOGGER_VERSION@"
+    }
+}

@@ -42,7 +42,6 @@ package org.osflash.thunderbolt
 		private static const GROUP_START: String = "group";
 		private static const GROUP_END: String = "groupEnd";
 		private static const MAX_DEPTH: int = 255;
-		private static const VERSION: String = "2.2";
 		private static const AUTHOR: String = "Jens Krause [www.websector.de]"
 
 		public static const FIELD_SEPERATOR: String = " :: ";
@@ -67,7 +66,7 @@ package org.osflash.thunderbolt
 		public static function about():void
 	    {
 	        var message: String = 	"+++ Welcome to ThunderBolt AS3 | VERSION: " 
-	        						+ Logger.VERSION 
+	        						+ Version.VERSION 
 	        						+ " | AUTHOR: " 
 	        						+ Logger.AUTHOR 
 	        						+ " | Happy logging +++";
