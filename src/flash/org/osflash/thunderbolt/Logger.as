@@ -470,46 +470,45 @@ package org.osflash.thunderbolt
  			var debugError: Error;
  			var message: String = '';
 			
-			var stackTrace:String = (new Error()).getStackTrace();
-			// track all stacks only if we have a stackTrace
-			if ( stackTrace != null )
-			{
-				var stacks:Array = stackTrace.split("\n");
-
-				if ( stacks != null )
+			if ( Capabilities.isDebugger) {
+				var stackTrace:String = (new Error()).getStackTrace();
+				// track all stacks only if we have a stackTrace
+				if ( stackTrace != null )
 				{
-					var stackData: StackData;
-					
-					// stacks data for using Logger 
-					
-/* 		    			trace ("stacks.length " + stacks.length); */
+					var stacks:Array = stackTrace.split("\n");
 
-					if ( stacks.length >= 5 )
-							stackData = Logger.stackDataFromStackTrace( stacks[ 4 ] );
-					
-					// special stack data for using ThunderBoldTarget which is a subclass of mx.logging.AbstractTarget
-					if ( stackData.className == "AbstractTarget" &&  stacks.length >= 9 )
-						stackData = Logger.stackDataFromStackTrace( stacks[ 8 ] );
-
-					// show details of stackData only if it available
-					if ( stackData != null )
+					if ( stacks != null )
 					{
-/* 							trace ("stackData " + stackData.toString() );  */
-									
-						message += ( stackData.packageName != "") 
-									? stackData.packageName + "."
-									: stackData.packageName;
-																		
-						message += stackData.className;
+						var stackData: StackData;
 						
-						if ( stackData.lineNumber > 0  )
-							message += " [" + stackData.lineNumber + "]" + Logger.FIELD_SEPERATOR;
-					}							    		
-				}  		    			
-			}               
+						// stacks data for using Logger 
+						
+	/* 		    			trace ("stacks.length " + stacks.length); */
 
-            
-                       
+						if ( stacks.length >= 5 )
+								stackData = Logger.stackDataFromStackTrace( stacks[ 4 ] );
+						
+						// special stack data for using ThunderBoldTarget which is a subclass of mx.logging.AbstractTarget
+						if ( stackData.className == "AbstractTarget" &&  stacks.length >= 9 )
+							stackData = Logger.stackDataFromStackTrace( stacks[ 8 ] );
+
+						// show details of stackData only if it available
+						if ( stackData != null )
+						{
+	/* 							trace ("stackData " + stackData.toString() );  */
+										
+							message += ( stackData.packageName != "") 
+										? stackData.packageName + "."
+										: stackData.packageName;
+																			
+							message += stackData.className;
+							
+							if ( stackData.lineNumber > 0  )
+								message += " [" + stackData.lineNumber + "]" + Logger.FIELD_SEPERATOR;
+						}							    		
+					}  		    			
+				}               
+			}       
             return message;	
 		}	    
 	}
