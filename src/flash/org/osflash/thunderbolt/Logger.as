@@ -35,16 +35,12 @@ package org.osflash.thunderbolt
 		private static const VERSION: String = CONFIG::version;
 		private static const AUTHOR: String = "Jens Krause [www.websector.de]"
 
-		// private vars	
-		private static var _stopLog: Boolean = false;
-		private static var _depth: int;	
-
 		private static var _targets: Object = new Object;
 		
 		// public vars
 		public static var includeTime: Boolean = true;
 		public static var showCaller: Boolean = true;
-		private static var logLevel: LogLevel = LogLevel.WARN;
+		public static var logLevel: LogLevel = LogLevel.WARN;
 
 			
 		/**
