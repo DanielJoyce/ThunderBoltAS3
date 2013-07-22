@@ -51,14 +51,14 @@ package org.osflash.thunderbolt
 	    {			    	
 	    	//
 	    	// log level
-	        var level: String;
+	        var level: LogLevel;
 	        if (includeLevel) 
 	        	level = getLogLevel( event.level );	
 			//
 			// log category
 	    	var message: String = "";
 			if ( includeCategory ) 
-				message += ILogger( event.target ).category + Logger.FIELD_SEPERATOR;
+				message += ILogger( event.target ).category + LoggerUtil.FIELD_SEPERATOR;
 			//
 			// log message
 			if ( event.message.length ) 
@@ -78,81 +78,81 @@ package org.osflash.thunderbolt
 		 * @return 	String		level description
 		 * 
 		 */		
-		private static function getLogLevel (logLevel: int): String
+		private static function getLogLevel (logLevel: int): LogLevel
 		{
-			var level: String;
+			var level: LogLevel;
 			
 			switch (logLevel) 
 			{
 				case LogEventLevel.INFO:
-					level = Logger.INFO;
+					level = LogLevel.INFO;
 					break;
 				case LogEventLevel.WARN:
-					level = Logger.WARN;
+					level = LogLevel.WARN;
 					break;				
 				case LogEventLevel.ERROR:
-					level = Logger.ERROR;
+					level = LogLevel.ERROR;
 					break;
 				// Firebug doesn't support a fatal level
 				case LogEventLevel.FATAL:
-					level = Logger.ERROR;
+					level = LogLevel.FATAL;
 					break;
 				default:
 					// LogLevel.DEBUG && LogLevel.ALL
-					level = Logger.LOG;
+					level = LogLevel.INFO;
 			}
 
 			return level;
 		} 
 		    
     		
-	     /**
-	     *  Setter method to stop logs
-	     * 
-		 * @param 	value	Boolean - default value is "false"
-		 * 
-	     */
-		[Inspectable(category="General", defaultValue="false")]		
-		public function set hide( value: Boolean ):void
-		{
-			Logger.hide = value;
-		}   		
-
-	     /**
-	     *  Setter method for using a timestamp
-	     * 
-		 * @param 	value	Boolean - default value is "true"
-		 * 
-	     */
-		[Inspectable(category="General", defaultValue="true")]		
-		public function set includeTime( value: Boolean ):void
-		{
-			Logger.includeTime = value;
-		}   		
-    		
-	     /**
-	     *  Setter method for using ThunderBolt AS3 console or not
-	     * 
-		 * @param 	value	Boolean for using console or not. Default value is "false"
-		 * 
-	     */
-		[Inspectable(category="General", defaultValue="false")]		
-		public function set console( value: Boolean ):void
-		{
-			Logger.console = value;
-		}   		
-    		
-	     /**
-	     *  Setter method for showing caller of a log message
-	     * 
-		 * @param 	value	Boolean Default value is "true"
-		 * 
-	     */
-		[Inspectable(category="General", defaultValue="true")]		
-		public function set showCaller( value: Boolean ):void
-		{
-			Logger.showCaller = value;
-		}   
+// 	     /**
+// 	     *  Setter method to stop logs
+// 	     * 
+// 		 * @param 	value	Boolean - default value is "false"
+// 		 * 
+// 	     */
+// 		[Inspectable(category="General", defaultValue="false")]		
+// 		public function set hide( value: Boolean ):void
+// 		{
+// 			Logger.hide = value;
+// 		}   		
+// 
+// 	     /**
+// 	     *  Setter method for using a timestamp
+// 	     * 
+// 		 * @param 	value	Boolean - default value is "true"
+// 		 * 
+// 	     */
+// 		[Inspectable(category="General", defaultValue="true")]		
+// 		public function set includeTime( value: Boolean ):void
+// 		{
+// 			Logger.includeTime = value;
+// 		}   		
+//     		
+// 	     /**
+// 	     *  Setter method for using ThunderBolt AS3 console or not
+// 	     * 
+// 		 * @param 	value	Boolean for using console or not. Default value is "false"
+// 		 * 
+// 	     */
+// 		[Inspectable(category="General", defaultValue="false")]		
+// 		public function set console( value: Boolean ):void
+// 		{
+// 			Logger.console = value;
+// 		}   		
+//     		
+// 	     /**
+// 	     *  Setter method for showing caller of a log message
+// 	     * 
+// 		 * @param 	value	Boolean Default value is "true"
+// 		 * 
+// 	     */
+// 		[Inspectable(category="General", defaultValue="true")]		
+// 		public function set showCaller( value: Boolean ):void
+// 		{
+// 			Logger.showCaller = value;
+// 		}   
 
 	     /**
 	     *  Setter method for filters
