@@ -16,15 +16,18 @@ package org.osflash.thunderbolt
 
 		protected override function doLog(level: LogLevel, date:Date, caller:String, msg: String = "", logObjs: Array = null): void 
 		{
-			var entry:String = ""+level.label;
+			var entry:String = "" + level.label;
 			if(date != null)
 				entry += LoggerUtil.FIELD_SEPERATOR + LoggerUtil.getTime(date)
 			if(caller != null)
 				entry += LoggerUtil.FIELD_SEPERATOR + caller
 			if(msg != null)
 				entry += LoggerUtil.FIELD_SEPERATOR + msg
+
 			write(entry)
-			writeObjects(logObjs)
+
+			if (logObjs != null && logObjs.length > 0)
+				writeObjects(logObjs)
 		}
 
 		protected override function doClose():void

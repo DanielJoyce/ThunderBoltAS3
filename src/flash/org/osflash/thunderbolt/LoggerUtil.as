@@ -52,8 +52,7 @@ package org.osflash.thunderbolt
 		*/
 		public static function getCaller(): String
 		{
-			var debugError: Error;
-			var message: String = '';
+			var message: String = null;
 			
 			if ( Capabilities.isDebugger) {
 				var stackTrace:String = (new Error()).getStackTrace();
@@ -82,7 +81,7 @@ package org.osflash.thunderbolt
 						{
 	/* 							trace ("stackData " + stackData.toString() );  */
 										
-							message += ( stackData.packageName != "") 
+							message = ( stackData.packageName != "") 
 										? stackData.packageName + "."
 										: stackData.packageName;
 																			

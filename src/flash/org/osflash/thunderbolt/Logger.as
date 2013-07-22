@@ -185,7 +185,7 @@ package org.osflash.thunderbolt
 		public static function log (logLevel: LogLevel, msg: String = "", logObjects: Array = null): void
 		{
 			if(logLevel.level >= Logger.logLevel.level){
-				var caller: String = "";
+				var caller: String = null;
 				var date: Date = null;
 				// add time	to log message
 				if (includeTime) 

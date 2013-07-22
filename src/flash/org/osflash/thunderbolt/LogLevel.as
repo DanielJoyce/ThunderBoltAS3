@@ -28,7 +28,7 @@ package org.osflash.thunderbolt
 			return _level;
 		}
 
-		public function get label():int
+		public function get label():String
 		{
 			return _label;
 		}
