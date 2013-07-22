@@ -5,8 +5,11 @@ package org.osflash.thunderbolt
 	* Properly handles trying to log when instance has had close() called
 	* Subclasses should override doLog and doClose methods
 	*/
-	public class BaseLogger implements ILoggerTarget
+	public class BaseLoggerTarget implements ILoggerTarget
 	{
+		protected static const GROUP_START: String = "group";
+		protected static const GROUP_END: String = "groupEnd";
+
 		private var _isClosed = false
 
 		public final function log(level: LogLevel, date:Date, caller:String, msg: String = "", logObjects: Array = null): void {

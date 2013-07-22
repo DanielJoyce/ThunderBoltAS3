@@ -89,7 +89,7 @@ package org.osflash.thunderbolt
 							message += stackData.className;
 							
 							if ( stackData.lineNumber > 0  )
-								message += " [" + stackData.lineNumber + "]" + FIELD_SEPERATOR;
+								message += " [" + stackData.lineNumber + "]"
 						}							    		
 					}  		    			
 				}               
@@ -131,19 +131,17 @@ package org.osflash.thunderbolt
 		* Creates a String of valid time value
 		* @return String current time as a String using valid hours, minutes, seconds and milliseconds
 		*/
-		public static function getCurrentTime():String
+		public static function getTime(date:Date):String
 		{
-			var currentDate: Date = new Date();
-			
-			var currentTime: String = 	"time "
-										+ LoggerUtil.fmtTimeValue(currentDate.getHours()) 
+			var time: String = 	"time "
+										+ LoggerUtil.fmtTimeValue(date.getHours()) 
 										+ ":" 
-										+ LoggerUtil.fmtTimeValue(currentDate.getMinutes()) 
+										+ LoggerUtil.fmtTimeValue(date.getMinutes()) 
 										+ ":" 
-										+ LoggerUtil.fmtTimeValue(currentDate.getSeconds()) 
+										+ LoggerUtil.fmtTimeValue(date.getSeconds()) 
 										+ "." 
-										+ LoggerUtil.fmtTimeValue(currentDate.getMilliseconds()) + FIELD_SEPERATOR;
-			return currentTime;
+										+ LoggerUtil.fmtTimeValue(date.getMilliseconds())
+			return time;
 		}
 	}
 }

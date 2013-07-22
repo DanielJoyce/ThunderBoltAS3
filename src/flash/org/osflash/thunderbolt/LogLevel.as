@@ -5,25 +5,37 @@ package org.osflash.thunderbolt
 	*/
 	public class LogLevel
 	{
-		public static const ALL:LogLevel = 		LogLevel(0);
-		public static const DEBUG:LogLevel = 	LogLevel(2);
-		public static const INFO:LogLevel = 	LogLevel(4);
-		public static const WARN:LogLevel = 	LogLevel(6);
-		public static const ERROR:LogLevel = 	LogLevel(8);
-		public static const FATAL:LogLevel = 	LogLevel(1000);
-		public static const OFF:LogLevel = 		LogLevel(int.MAX_VALUE);
+		public static const ALL:LogLevel = 		new LogLevel(0,"ALL");
+		public static const DEBUG:LogLevel = 	new LogLevel(2,"DEBUG");
+		public static const INFO:LogLevel = 	new LogLevel(4,"INFO");
+		public static const WARN:LogLevel = 	new LogLevel(6,"WARN");
+		public static const ERROR:LogLevel = 	new LogLevel(8,"ERROR");
+		public static const FATAL:LogLevel = 	new LogLevel(1000,"FATAL");
+		public static const OFF:LogLevel = 		new LogLevel(int.MAX_VALUE,"OFF");
 
 		private var _level = -1;
+		private var _label = ""; 
 
-		public function LogLevel(level: int)
+		public function LogLevel(level: int, label:String)
 		{
 			super();
 			_level = level;
+			_label = label;
 		}
 
 		public function get level():int
 		{
 			return _level;
+		}
+
+		public function get label():int
+		{
+			return _label;
+		}
+
+		public function toString():String
+		{
+			return _label;
 		}
 	}
 }
