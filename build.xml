@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="ThunderboltLoggerAS3" basedir="." default="build">
 
+<!--
+	Determine if this is a debug build and set the build.debug
+	property to true if it is, false otherwise
+-->
+<condition property="is_debug" value="true" else="false">
+	<and>
+		<isset property="build.debug"/>
+		<equals arg1="${build.debug}" arg2="true"/>
+	</and>
+	</condition>
+<echo message="Is debug build: ${is_debug}"/>
+
+<!--
+	Determine if GIT is available
+-->
+<available file="../.git" type="dir" property="git.present"/>
+		
+<!-- 
+	If git is available, sets the value of the repository.version
+	property to the value returned by 'git describe &ndash;&ndash;tags &ndash;&ndash;always HEAD'
+	else sets it 'UNKNOWN'
+-->
+	
+<!-- Check if repo is dirty -->
+<exec executable="git" outputproperty="git.status" 
+		failifexecutionfails="false" errorproperty="">
+	<arg value="status"/>
+	<arg value="--porcelain"/>
+</exec>
+<condition property="repository.dirty" 
+		value="-dirty" else="">
+	<and>
+		<isset property="git.present"/>
+		<isset property="git.status"/>
+		<length string="${git.status}" trim="yes" when="greater" length="0"/>
+	</and>
+</condition>
+
+<!-- Build version property -->
+<exec executable="git" outputproperty="git.revision" 
+	failifexecutionfails="false" errorproperty="">
+	<arg value="describe"/>
+	<arg value="--tags"/>
+	<arg value="--always"/>
+	<arg value="HEAD"/>
+</exec>
+<condition property="repository.version" 
+	value="${git.revision}${repository.dirty}" else="UNKNOWN">
+	<and>
+		<isset property="git.present"/>
+		<isset property="git.revision"/>
+		<length string="${git.revision}" trim="yes" length="0" when="greater"/>
+	</and>
+</condition>
+<echo message="Determined repository version is: ${repository.version}"/>
+
 <!-- Set env. var for Flex app compilation -->
 <property environment="env."/>
     <fail unless="env.FLEX_HOME"
@@ -29,11 +85,11 @@
     <mkdir dir="${deploy.dir}"/>
 </target>
         
-<target name="build" depends="clean, setup, inject.version">
+<target name="build" depends="clean, setup">
     <compc 
-        output="${deploy.dir}/${comp.name}-${repository.version}${repository.dirty}.swc"
+        output="${deploy.dir}/${comp.name}-${repository.version}.swc"
         actionscript-file-encoding="UTF-8"
-        debug="true"
+        debug="${is_debug}"
         incremental="false"
         swf-version="13"
         warnings="false">
@@ -41,60 +97,9 @@
         <source-path path-element="${comp.src}/flex"/>
         <include-sources dir="${comp.src}/flash" includes="*" />
         <include-sources dir="${comp.src}/flex" includes="*" />
+        <!-- Conditional compilation overrides -->
+        <define name="CONFIG::version" value="'${repository.version}'"/>
     </compc>
-</target>
-    
-    <!-- Git dir check and revision number update tasks -->
-    
-<available file=".git" type="dir" property="git.present"/>
-    
-    <!-- Git revision property update target -->
-<target name="git.revision" if="git.present"
-        description="Stores git revision in ${repository.version}">
-    <exec executable="git" outputproperty="git.revision" 
-            failifexecutionfails="false" errorproperty="">
-        <arg value="describe"/>
-        <arg value="--tags"/>
-        <arg value="--always"/>
-        <arg value="HEAD"/>
-    </exec>
-    <condition property="repository.version" 
-            value="${git.revision}" else="UNKNOWN">
-    <and>
-        <isset property="git.revision"/>
-        <length string="${git.revision}" trim="yes" when="greater" length="0"/>
-    </and>
-    </condition>
-    <echo message="Determined git version is ${git.revision}"/>
-</target>
-
-<target name="git.dirty" if="git.present" 
-    description="Test if artifact was built from dirty repo with uncommitted changes or untracked files">
-    <exec executable="git" outputproperty="git.status" 
-            failifexecutionfails="false" errorproperty="">
-        <arg value="status"/>
-        <arg value="--porcelain"/>
-    </exec>
-    <condition property="repository.dirty" 
-            value="-dirty" else="">
-    <and>
-        <isset property="git.status"/>
-        <length string="${git.status}" trim="yes" when="greater" length="0"/>
-    </and>
-    </condition>
-</target>
-    
-    <!-- Replace VersionInfo.as with a template that contains updated git.revision number -->
-<target name="inject.version" depends="git.revision, git.dirty"
-        description="Injects git revision into app Version.as">
-    <copy file="src/flash/org/osflash/thunderbolt/Version.as.tmplt" 
-            tofile="src/flash/org/osflash/thunderbolt/Version.as" overwrite="true">
-        <filterchain>
-            <replacetokens >
-                <token key="THUNDERBOLT_LOGGER_VERSION" value="${repository.version}${repository.dirty}" />
-            </replacetokens>
-        </filterchain>
-    </copy>    
 </target>
 
 </project>
