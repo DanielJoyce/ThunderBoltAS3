@@ -35,8 +35,12 @@ package org.osflash.thunderbolt
 		private static const VERSION: String = CONFIG::version;
 		private static const AUTHOR: String = "Jens Krause [www.websector.de]"
 
+		// Active Logger Targets
 		private static var _targets: Object = new Object;
 		
+		// Open Timing Points
+		private static var _timings: Object = new Object;
+
 		// public vars
 		public static var includeTime: Boolean = true;
 		public static var showCaller: Boolean = true;
@@ -83,8 +87,8 @@ package org.osflash.thunderbolt
 		public static function addLoggerTarget(name: String, target: ILoggerTarget):void
 		{
 			// Remove existing target if exists
-			removeLoggerTarget(name)
-			_targets[name] = target
+			removeLoggerTarget(name);
+			_targets[name] = target;
 		}
 
 		/**
@@ -96,9 +100,9 @@ package org.osflash.thunderbolt
 		{
 			if(_targets.hasOwnProperty(name))
 			{
-				var target:ILoggerTarget = _targets[name] as ILoggerTarget
-				target.close()
-				delete _targets[name]
+				var target:ILoggerTarget = _targets[name] as ILoggerTarget;
+				target.close();
+				delete _targets[name];
 			}
 		}
 
@@ -109,8 +113,35 @@ package org.osflash.thunderbolt
 		{
 			for(var name:String in _targets)
 			{
-				removeLoggerTarget(name)
+				removeLoggerTarget(name);
 			}
+		}
+
+		/**
+		* Add a timing target
+		*
+		*/
+		private static function addTimingTarget(name: String, timing: Date):void
+		{
+			// Remove existing target if exists
+			removeTimingTarget(name);
+			_timings[name] = timing;
+		}
+
+		/**
+		* Remove a timing target and return the stored date 
+		* of when the timing started
+		* If no timing with the given date exists, returns null
+		*/
+		private static function removeTimingTarget(name: String):Date
+		{
+			var timing:Date = null
+			if(_timings.hasOwnProperty(name))
+			{
+				timing = _timings[name] as Date;
+				delete _targets[name];
+			}
+			return timing;
 		}
 
 		/**
@@ -202,6 +233,54 @@ package org.osflash.thunderbolt
 				for each(var target:ILoggerTarget in _targets){
 					target.log(logLevel, new Date(),LoggerUtil.getCaller(), msg, logObjects)
 				}
+			}
+		}
+
+		/**
+		* Start a timing with the given name
+		* Marks the timing start point in the logs at the given log level
+		*/
+		public static function startTiming(name:String, level:LogLevel = null):void
+		{
+			if(level == null)
+				level = LogLevel.DEBUG
+			var date:Date = new Date();
+			addTimingTarget(name,date);
+			log(level, "Starting timing '"+name+"'");
+		}
+
+		/**
+		* Stop the timing with the given name and
+		* log the result at the given log level
+		* The default log level is DEBUG
+		*/ 
+		public static function stopTiming(name:String, level:LogLevel = null):void
+		{
+			if(level == null)
+				level = LogLevel.DEBUG
+
+			var startDate = removeTimingTarget(name);
+			if(startDate != null)
+			{
+				var stopDate:Date = new Date();
+				var elapsedTime: int = stopDate.time -startDate.time
+				var hours = elapsedTime % ( 60 * 60 * 1000 );
+				elapsedTime = elapsedTime - ( hours * 60 * 60 * 1000 );
+				var minutes = elapsedTime % ( 60 * 1000 );
+				elapsedTime = elapsedTime - ( minutes * 60 * 1000 );
+				var seconds = elapsedTime % 1000;
+				var milliseconds = elapsedTime - ( seconds * 1000 );
+
+				var time:String = LoggerUtil.fmtTimeValue(hours) + ":" +
+								  LoggerUtil.fmtTimeValue(minutes) + ":" +
+								  LoggerUtil.fmtTimeValue(seconds) + "." +
+								  LoggerUtil.fmtTimeValue(milliseconds);
+				var msg = "Finished timing '"+name+"', took "+time;
+				log(level, msg);
+			}
+			else
+			{
+				log(LogLevel.WARN, "No matching timing start point found for '"+name+"'")
 			}
 		}
 	}
