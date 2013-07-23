@@ -207,7 +207,8 @@ package org.osflash.thunderbolt
 		}		
 			
 		/**
-		* Calls Firebugs command line API to write log information
+		* If logLevel is greater than current logger logLevel, then calls
+		* every registered ILoggerTarget 
 		* 
 		* @param 	level		String			log level 
 		* @param 	msg			String			log message 
@@ -239,6 +240,7 @@ package org.osflash.thunderbolt
 		/**
 		* Start a timing with the given name
 		* Marks the timing start point in the logs at the given log level
+		* The default log level is DEBUG
 		*/
 		public static function startTiming(name:String, level:LogLevel = null):void
 		{
@@ -282,6 +284,95 @@ package org.osflash.thunderbolt
 			{
 				log(LogLevel.WARN, "No matching timing start point found for '"+name+"'")
 			}
+		}
+		
+		//-----------------------------------------------------------------------------------------------
+		// Methods to quickly set logging levels, intended for use via ExternalInterface
+		//-----------------------------------------------------------------------------------------------
+
+		/**
+		* Register external intefaces for the purposes of controlling
+		* the current log level via JavaScript
+		*
+		* Silently fails if ExternalInterface is not available
+		* 
+		* This call registers the following external interfaces:
+		* 	setLogLevelAll
+		* 	setLogLevelDebug
+		* 	setLogLevelInfo
+		* 	setLogLevelWarn
+		* 	setLogLevelError
+		* 	setLogLevelFatal
+		* 	setLogLevelOff
+		*/
+		public static function registerExternalInterfaces():void
+		{
+			if(ExternalInterface.available)
+			{
+				ExternalInterface.addCallback("setLogLevelAll",setLogLevelAll)
+				ExternalInterface.addCallback("setLogLevelDebug",setLogLevelDebug)
+				ExternalInterface.addCallback("setLogLevelInfo",setLogLevelInfo)
+				ExternalInterface.addCallback("setLogLevelWarn",setLogLevelWarn)
+				ExternalInterface.addCallback("setLogLevelError",setLogLevelError)
+				ExternalInterface.addCallback("setLogLevelFatal",setLogLevelFatal)
+				ExternalInterface.addCallback("setLogLevelOff",setLogLevelOff)
+			}
+		}
+
+		/**
+		* Set the current logging level to ALL
+		*/
+		public static function setLogLevelAll():void
+		{
+			logLevel = LogLevel.ALL
+		}
+
+		/**
+		* Set the current logging level to DEBUG
+		*/
+		public static function setLogLevelDebug():void
+		{
+			logLevel = LogLevel.DEBUG
+		}
+
+		/**
+		* Set the current logging level to INFO
+		*/
+		public static function setLogLevelInfo():void
+		{
+			logLevel = LogLevel.INFO
+		}
+	
+		/**
+		* Set the current logging level to WARN
+		*/
+		public static function setLogLevelWarn():void
+		{
+			logLevel = LogLevel.WARN
+		}
+
+		/**
+		* Set the current logging level to ERROR
+		*/
+		public static function setLogLevelError():void
+		{
+			logLevel = LogLevel.ERROR
+		}
+
+		/**
+		* Set the current logging level to FATAL
+		*/
+		public static function setLogLevelFatal():void
+		{
+			logLevel = LogLevel.FATAL
+		}
+
+		/**
+		* Set the current logging level to OFF
+		*/
+		public static function setLogLevelOff():void
+		{
+			logLevel = LogLevel.OFF
 		}
 	}
 
