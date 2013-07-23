@@ -5,12 +5,14 @@ package org.osflash.thunderbolt
 	*/
 	public class LogLevel
 	{
-		public static const ALL:LogLevel = 		new LogLevel(0,"ALL");
+		// Log everything
+		public static const ALL:LogLevel =		new LogLevel(0,"ALL");
 		public static const DEBUG:LogLevel = 	new LogLevel(2,"DEBUG");
 		public static const INFO:LogLevel = 	new LogLevel(4,"INFO");
 		public static const WARN:LogLevel = 	new LogLevel(6,"WARN");
 		public static const ERROR:LogLevel = 	new LogLevel(8,"ERROR");
 		public static const FATAL:LogLevel = 	new LogLevel(1000,"FATAL");
+		// Log nothing
 		public static const OFF:LogLevel = 		new LogLevel(int.MAX_VALUE,"OFF");
 
 		private var _level = -1;
