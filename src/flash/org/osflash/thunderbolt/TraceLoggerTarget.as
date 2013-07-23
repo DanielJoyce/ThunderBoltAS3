@@ -17,17 +17,17 @@ package org.osflash.thunderbolt
 
 		protected override function write (msg: String = ""): void
 		{
-			trace( _logLevel.label + " " + msg);	
+			trace(msg);	
 		}
 
 		protected override function writeGroup (groupAction: String, msg: String = ""): void 
 		{
 			if (groupAction == BaseTextualLoggerTarget.GROUP_START) 
-				trace( _logLevel.label + "." + GROUP_START + " " + msg);			
+				trace( _level.label + "." + GROUP_START + " " + msg);			
 			else if (groupAction == BaseTextualLoggerTarget.GROUP_END)
-				trace( _logLevel.label + "." + GROUP_END + " " + msg);			
+				trace( _level.label + "." + GROUP_END + " " + msg);			
 			else
-				trace( ERROR + "group type has not defined");		
+				trace( LogLevel.ERROR + "group type has not defined");		
 		}
 
 	}

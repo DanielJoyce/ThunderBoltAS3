@@ -2,18 +2,6 @@
 <project name="ThunderboltLoggerAS3" basedir="." default="build">
 
 <!--
-	Determine if this is a debug build and set the build.debug
-	property to true if it is, false otherwise
--->
-<condition property="is_debug" value="true" else="false">
-	<and>
-		<isset property="build.debug"/>
-		<equals arg1="${build.debug}" arg2="true"/>
-	</and>
-	</condition>
-<echo message="Is debug build: ${is_debug}"/>
-
-<!--
 	Determine if GIT is available
 -->
 <available file="../.git" type="dir" property="git.present"/>
@@ -89,7 +77,7 @@
     <compc 
         output="${deploy.dir}/${comp.name}-${repository.version}.swc"
         actionscript-file-encoding="UTF-8"
-        debug="${is_debug}"
+        debug="true"
         incremental="false"
         swf-version="13"
         warnings="false">
