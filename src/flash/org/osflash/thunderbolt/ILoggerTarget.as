@@ -12,7 +12,12 @@ package org.osflash.thunderbolt
 		* @param logObjects Additional objects to log
 		* @throws LoggerClosedError if this logger has been closed
 		*/
-		function log(level: LogLevel, date: Date, caller: String, msg: String = "", logObjects: Array = null): void 
+		function log(logEntry: LogEntry): void 
+
+		/**
+		* Set the log entry formatter
+		*/
+		function setLogEntryFormatter(entryFormatter: ILogEntryFormatter):void
 
 		/**
 		* This method is called by the Logger when the target is removed.

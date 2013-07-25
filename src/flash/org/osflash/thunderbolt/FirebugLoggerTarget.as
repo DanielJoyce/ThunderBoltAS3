@@ -5,20 +5,21 @@ package org.osflash.thunderbolt
 	import flash.system.System;
 
 
-	class FirebugLoggerTarget extends BaseTextualLoggerTarget{
+	class FirebugLoggerTarget extends BaseLoggerTarget{
+
 		private static const DEBUG: String = "debug";
 		private static const INFO: String = "info";
 		private static const WARN: String = "warn";
 		private static const ERROR: String = "error";
 		private static const LOG: String = "log";
+
 		private static const FIREBUG_METHODS: Array = [DEBUG, INFO, WARN, ERROR, LOG];
 
 		private var _level:LogLevel = LogLevel.OFF;
 
-		protected override function doLog(level: LogLevel, date:Date, caller:String, msg: String = "", logObjects: Array = null): void
+		protected override function doLog(logEntry: LogEntry): void
 		{
-			_level = level;
-			super.doLog(level, date, caller, msg, logObjects);
+			write(logEntry.level, _logEntryFormatter.format(logEntry).toString());
 		}
 
 		protected override function doClose():void
@@ -73,19 +74,9 @@ package org.osflash.thunderbolt
 			return fbLevel;
 		}
 
-		protected override function write (msg: String = ""): void
+		private function write (level: LogLevel, msg: String = ""): void
 		{
-				ExternalInterface.call("console." + logLevelToFirebugLevel(_level), msg);			
-		}
-
-		protected override function writeGroup (groupAction: String, msg: String = ""): void 
-		{
-				if (groupAction == BaseTextualLoggerTarget.GROUP_START) 
-					ExternalInterface.call("console.group", msg);		
-				else if (groupAction == BaseTextualLoggerTarget.GROUP_END)
-					ExternalInterface.call("console.groupEnd");			
-				else
-					ExternalInterface.call("console." + LogLevel.ERROR, "group type has not defined");
+				ExternalInterface.call("console." + logLevelToFirebugLevel(level), msg);			
 		}
 	}
 }

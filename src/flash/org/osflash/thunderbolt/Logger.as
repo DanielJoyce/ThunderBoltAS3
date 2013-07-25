@@ -167,6 +167,8 @@ package org.osflash.thunderbolt
 		*/		
 		public static function info (msg: String = null, ...logObjects): void
 		{
+			if(logObjects.length == 0)
+				logObjects = null
 			Logger.log( LogLevel.INFO, msg, logObjects );			
 		}
 		
@@ -179,6 +181,8 @@ package org.osflash.thunderbolt
 		*/		
 		public static function warn (msg: String = null, ...logObjects): void
 		{
+			if(logObjects.length == 0)
+				logObjects = null
 			Logger.log( LogLevel.WARN, msg, logObjects );			
 		}
 
@@ -191,6 +195,8 @@ package org.osflash.thunderbolt
 		*/		
 		public static function error (msg: String = null, ...logObjects): void
 		{
+			if(logObjects.length == 0)
+				logObjects = null
 			Logger.log( LogLevel.ERROR, msg, logObjects );			
 		}
 		
@@ -203,6 +209,8 @@ package org.osflash.thunderbolt
 		*/		
 		public static function debug (msg: String = null, ...logObjects): void
 		{
+			if(logObjects.length == 0)
+				logObjects = null
 			Logger.log( LogLevel.DEBUG, msg, logObjects );			
 		}		
 			
@@ -230,9 +238,11 @@ package org.osflash.thunderbolt
 				if ( showCaller ) 
 					caller = LoggerUtil.getCaller();
 	
+				var logEntry = new LogEntry(logLevel, date, caller, msg, logObjects)
+
 				// Call each registered logging target
 				for each(var target:ILoggerTarget in _targets){
-					target.log(logLevel, new Date(),LoggerUtil.getCaller(), msg, logObjects)
+					target.log(logEntry)
 				}
 			}
 		}
