@@ -2,6 +2,22 @@ package org.osflash.thunderbolt
 {
 	import flash.utils.*;
 
+	/**
+	* Object formatter that introspects an object and 
+	* and builds a well laid out string showing
+	* its properties
+	*
+	* Based on original code by Jens Kruse
+	* Heavily refactored and reworked
+	* Does not support notion of 'grouping' 
+	* As the style of formatting depends on the style
+	* of logging target, so custom formatters will
+	* need to be created for them later.
+	*
+	* @author Jens Kruse [www.websector.de]
+    * @author Daniel Joyce [https://github.com/DanielJoyce]
+	*
+	*/
 	public class SimpleObjectFormatter implements IObjectFormatter{
 
 		private var _maxDepth = -1;

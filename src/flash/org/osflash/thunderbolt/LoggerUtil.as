@@ -3,6 +3,12 @@ package org.osflash.thunderbolt
 	import flash.system.Capabilities;
 
 
+	/**
+	*
+	* Split from Logger.as
+	*
+	* @author	Jens Krause [www.websector.de]
+	*/
 	public class LoggerUtil {
 
 		public static const FIELD_SEPERATOR: String = " :: ";

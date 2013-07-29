@@ -1,5 +1,17 @@
 package org.osflash.thunderbolt
 {
+	/**
+	* Simple Log Entry Formatter
+	*
+	* Non configurable, simply formats log entries using a hard
+	* coded format.
+	*
+	* Objects are formatted using SimpleObjectFormatter
+	*
+	* @see format
+	*
+	* @author Daniel Joyce [https://github.com/DanielJoyce]
+	*/
 	public class SimpleLogEntryFormatter implements ILogEntryFormatter
 	{
 
@@ -14,6 +26,8 @@ package org.osflash.thunderbolt
 		*
 		* Objects are formatted with SimpleObjectFormatter and put on a 
 		* new line after the entry
+		* 
+		* The output is a String.
 		*/
 		public function format(entry:LogEntry):Object
 		{

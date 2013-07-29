@@ -4,7 +4,11 @@ package org.osflash.thunderbolt
 	import flash.system.Capabilities;
 	import flash.system.System;
 
-
+	/**
+	* Firebug console logger, also compatible with most other browser consoles
+	*
+	* @author Daniel Joyce [https://github.com/DanielJoyce]
+	*/
 	class FirebugLoggerTarget extends BaseLoggerTarget{
 
 		private static const DEBUG: String = "debug";

@@ -12,9 +12,9 @@ The Original Code is:
 	src/flash/org/osflash/thunderbolt/Logger.as
 	src/flex/org/osflash/thunderbolt/ThunderBoltTarget.as
 
-The Initial Developer of the Original Code is Jens Kruse.
+The Initial Developer of the Original Code is Jens Kruse [www.websector.de].
 Portions created by Jens Kruse are Copyright (C) 2008-2013. 
 All Rights Reserved.
  
 Contributor(s): 
-	Daniel Joyce
+	Daniel Joyce [https://github.com/DanielJoyce]

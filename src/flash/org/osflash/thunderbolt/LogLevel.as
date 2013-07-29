@@ -2,6 +2,8 @@ package org.osflash.thunderbolt
 {
 	/**
 	* Logging levels, value constants borrowed from mx.logging.LogEventLevel
+	*
+	* @author Daniel Joyce [https://github.com/DanielJoyce]
 	*/
 	public class LogLevel
 	{

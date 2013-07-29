@@ -1,10 +1,14 @@
 
 package org.osflash.thunderbolt 
 {
-/**
-* Stackdata for storing all data throwing by an error
-* 
-*/
+
+	/**
+	* Stackdata for storing all data throwing by an error
+	* 
+	* Split from Logger.as
+	*
+	* @author	Jens Krause [www.websector.de]
+	*/
 	internal class StackData
 	{
 		public var packageName: String;

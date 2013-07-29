@@ -1,10 +1,14 @@
 /**
 * Logging Flex and Flash projects using Firebug and ThunderBolt AS3
+*
+* Please note that logging of call sites via stack trace walking only works
+* if overall project is built in debug mode and run in a debug player.
 * 
-* @version	2.4
+* @version	2.4-NG
 * @date		03/06/09
 *
 * @author	Jens Krause [www.websector.de]
+* @author 	Daniel Joyce [https://github.com/DanielJoyce]
 *
 * @see		http://www.websector.de/blog/category/thunderbolt/
 * @source	https://github.com/DanielJoyce/ThunderBoltAS3

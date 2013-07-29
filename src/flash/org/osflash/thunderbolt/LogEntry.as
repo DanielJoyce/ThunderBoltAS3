@@ -2,6 +2,8 @@ package org.osflash.thunderbolt
 {
 	/**
 	* Immutable class storing the data for a single log entry
+	*
+	* @author Daniel Joyce [https://github.com/DanielJoyce]
 	*/
 	public class LogEntry{
 		private var _level:LogLevel = null;

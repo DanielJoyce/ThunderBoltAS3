@@ -3,13 +3,14 @@ package org.osflash.thunderbolt
 	/**
 	* provides basic plumbing. 
 	*
-	* Out of the box, uses SimpleLogEntryFormatter and SimpleObjectFormatter
-	* for formatting log entries and objects
+	* Out of the box, uses SimpleLogEntryFormatter
 	*
 	* Properly handles trying to log when instance has had close() called
 	* Subclasses should override doLog and doClose methods
 	* 
-	*Class should be considered "Abstract"
+	* Class should be considered "Abstract"
+	*
+	* @author Daniel Joyce [https://github.com/DanielJoyce]
 	*/
 	public class BaseLoggerTarget implements ILoggerTarget
 	{
@@ -30,7 +31,8 @@ package org.osflash.thunderbolt
 		* If this logger has had its close() method called, should throw LoggerClosedError
 		* Should not be called directly outside of framework
 		*
-		* This method MUST be overridden by subclasses
+		* This method MUST be overridden by subclasses as the implementation
+		* throws Error
 		*
 		* @param level The level to log at
 		* @param msg The msg to log
@@ -59,6 +61,9 @@ package org.osflash.thunderbolt
 		* This method is called by the Logger when the target is removed.
 		*
 		* This method should clean up any resources in use
+		*
+		* This method MUST be overridden by subclasses as the implementation
+		* throws Error
 		*
 		* Should not be called directly outside of framework
 		*/

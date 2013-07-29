@@ -1,6 +1,12 @@
 package org.osflash.thunderbolt
 {
 
+	/**
+	* Interface for Logger Targets which act as 'sinks' for logging information
+	* and format it for output for whatever method they use.
+	*
+	* @author Daniel Joyce [https://github.com/DanielJoyce]
+	*/
 	public interface ILoggerTarget
 	{
 		/**
