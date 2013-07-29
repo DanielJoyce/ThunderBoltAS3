@@ -42,14 +42,13 @@ package org.osflash.thunderbolt
 				{
 					buffer += obj + "\n";
 				}
-
 				else if (obj is Array)
 				{
-					buffer += "\n";
-					var i: int = 0;
-					var max: int = obj.length;
 					if( depth + 1 < _maxDepth)
 					{
+						buffer += "\n";
+						var i: int = 0;
+						var max: int = obj.length;
 						for (i; i < max; i++)
 						{
 							buffer += formatObject(obj[i], "["+i+"]", depth+1, ++props);
@@ -57,14 +56,13 @@ package org.osflash.thunderbolt
 					}
 					else
 					{
-						buffer += padding + "    ...\n";
+						buffer += " ...\n";
 					}
 				}
 				else if (obj is Object)
-				{
-					buffer += "\n";
-					
+				{					
 					if( depth + 1 < _maxDepth ){
+						buffer += "\n";
 						var description:XML = describeType(obj);
 						//var type: String = description.@name;
 						// log private props as well - thx to Rob Herman [http://www.toolsbydesign.com]
@@ -95,45 +93,18 @@ package org.osflash.thunderbolt
 					}
 					else
 					{
-						buffer += padding + "    ...\n";
+						buffer += "...\n";
 					}
 				}
 				else
 				{
 					buffer += "UNKNOWN\n";
 				}
-// 				{
-// 					// log private props as well - thx to Rob Herman [http://www.toolsbydesign.com]
-// 					var list: XMLList = description..accessor;					
-// 					
-// 					if (list.length())
-// 					{
-// 						for each(var item: XML in list)
-// 						{
-// 							var propItem: String = item.@name;
-// 							var typeItem: String = item.@type;							
-// 							var access: String = item.@access;
-// 							
-// 							// log objects && properties accessing "readwrite" and "readonly" only 
-// 							if (access && access != "writeonly") 
-// 							{
-// 								//TODO: filter classes
-// 								// var classReference: Class = getDefinitionByName(typeItem) as Class;
-// 								var valueItem: * = logObj[propItem];
-// 								writeObjects(valueItem, depth+1, propItem);
-// 							}
-// 						}					
-// 					}
-// 					else
-// 					{
-// 						writeObjects(logObj, depth+1, type);					
-// 					}
-// 				}
 			}
 			else
 			{
 				buffer += "...\n";
-			}									
+			}
 			return buffer;
 		}
 
