@@ -1,14 +1,13 @@
 /**
 * Logging Flex and Flash projects using Firebug and ThunderBolt AS3
 * 
-* @version	2.2
+* @version	2.4
 * @date		03/06/09
 *
 * @author	Jens Krause [www.websector.de]
 *
 * @see		http://www.websector.de/blog/category/thunderbolt/
-* @see		http://code.google.com/p/flash-thunderbolt/
-* @source	http://flash-thunderbolt.googlecode.com/svn/trunk/as3/
+* @source	https://github.com/DanielJoyce/ThunderBoltAS3
 * 
 * ***********************
 * HAPPY LOGGING ;-)
