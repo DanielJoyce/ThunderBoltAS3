@@ -82,11 +82,11 @@ package org.osflash.thunderbolt
 	/* 							trace ("stackData " + stackData.toString() );  */
 										
 							message = ( stackData.packageName != "") 
-										? stackData.packageName + "."
+										? stackData.packageName + "::"
 										: stackData.packageName;
-																			
+
 							message += stackData.className;
-							
+
 							if ( stackData.lineNumber > 0  )
 								message += " [" + stackData.lineNumber + "]"
 						}							    		
